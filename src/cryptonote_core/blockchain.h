@@ -588,7 +588,7 @@ namespace cryptonote
      *
      * @return the per kB fee
      */
-    static uint64_t get_dynamic_per_kb_fee(uint64_t block_reward, size_t median_block_size, uint8_t version);
+    static uint64_t get_dynamic_per_kb_fee(uint64_t block_reward, size_t median_block_size);
 
     /**
      * @brief get dynamic per kB fee estimate for the next few blocks
@@ -921,7 +921,7 @@ namespace cryptonote
      * @param blocks the blocks to be hashed
      * @param map return-by-reference the hashes for each block
      */
-    void block_longhash_worker(uint64_t height, const std::vector<block> &blocks,
+    void block_longhash_worker(cn_pow_hash_v2 &hash_ctx, const std::vector<block> &blocks,
         std::unordered_map<crypto::hash, crypto::hash> &map) const;
 
     /**
@@ -1018,7 +1018,9 @@ namespace cryptonote
     // some invalid blocks
     blocks_ext_by_hash m_invalid_blocks;     // crypto::hash -> block_extended_info
 
-
+    cn_pow_hash_v2 m_pow_ctx;
+    std::vector<cn_pow_hash_v2> m_hash_ctxes;
+    
     checkpoints m_checkpoints;
     bool m_enforce_dns_checkpoints;
 
